@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <span class="logo">Company Logo</span>
+  <span class="spacer"></span>
+  <nav>
+    <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
+    <a mat-button routerLink="/about" routerLinkActive="active">About Us</a>
+    <a mat-button [matMenuTriggerFor]="servicesMenu">Services</a>
+    <a mat-button routerLink="/price" routerLinkActive="active">Prices</a>
+    <a mat-button routerLink="/photos" routerLinkActive="active">Photo</a>
+    <a mat-button routerLink="/booking" routerLinkActive="active">Booking</a>
+    <a mat-button (click)="switchLang('en')">En</a>
+    <a mat-button (click)="switchLang('sv')">Sv</a>
+  </nav>
+</mat-toolbar>
+
+<!-- services sub-menu -->
+<mat-menu #servicesMenu="matMenu">
+  <button mat-menu-item routerLink="/home-service">Home Service</button>
+  <button mat-menu-item routerLink="/general-service">General Service</button>
+</mat-menu>

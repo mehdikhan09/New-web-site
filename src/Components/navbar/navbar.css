@@ -1,0 +1,65 @@
+.navbar-brand {
+  letter-spacing: 3px;
+  color: #c24244;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+.navbar-brand:hover {
+	color: #c24244;
+}
+
+.navbar-scroll .nav-link,
+.navbar-scroll .fa-bars {
+  color: #7f4722;
+}
+
+.navbar-scrolled .nav-link,
+.navbar-scrolled .fa-bars {
+  color: #7f4722;
+}
+
+.navbar-scrolled {
+  background-color: #ffede7;
+}
+.logo{
+	font-weight: bold;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+.fonts{
+	font-weight: bold;
+	font-size: 1rem;
+}
+.fonts1{
+	min-width: 40px;   /* or width: 40px; for fixed size */
+  height: 36px;
+  padding: 0 12px;
+  font-size: 16px;
+  text-align: center;
+}
+.active {
+  color: #fff;
+  font-weight: bold;
+  border-bottom: 2px solid #1976d2;
+  background: linear-gradient(90deg, #ffd600 0%, #1976d2 100%) !important;
+}
+
+@media (max-width: 900px) {
+  .active {
+    border-bottom: 2px solid #fff !important;
+    background: linear-gradient(90deg, #ffd600 0%, #1976d2 100%) !important;
+    color: #fff !important;
+    text-shadow: none !important;
+    overflow: hidden !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    padding: 0 8px !important;
+    box-sizing: border-box !important;
+    max-width: 100vw !important;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    display: inline-block !important;
+  }
+}

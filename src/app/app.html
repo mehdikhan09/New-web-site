@@ -1,0 +1,47 @@
+<div *ngIf="showAdBox" id="ad-video-box" style="
+    position: fixed;
+    left: 20px;
+    bottom: 6px;
+    z-index: 9999;
+    background: #222;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 10px;
+    width: 400px;
+    height: 238px;
+    display: block;">
+    <button id="ad-close-btn" style="
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
+        z-index: 10000;"
+        (click)="hideAdBox()">&#10006;</button>
+    <video  controls autoplay muted playsinline loop style="border-radius: 8px; width:378px; height:213px;">
+        <source src="assets/Video/video1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+
+<app-recoreviews></app-recoreviews>
+
+<!-- Floating Social Media Buttons -->
+
+
+<div class="floating-action-btn-wrapper">
+ <button routerLink="/booking"  mat-raised-button color="accent" class="fonts custom-bg" style="font-weight: bold;">
+  {{ 'Booking' | translate }}
+ </button>
+</div>
+
+
+
+
+
+<app-footer></app-footer>

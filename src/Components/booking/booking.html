@@ -1,0 +1,215 @@
+
+<br><br>
+<div class="booking-container">
+	<h2 class="section-headline">{{ 'Booking' | translate }}</h2>
+	<div class="booking-row">
+		
+		<div class="booking-right">
+			<div class="booking-letters">
+				<br/><h3 style="text-align: center;">{{ 'booking.Headline' | translate }}</h3><br/>
+				<p>{{ 'booking.Subheadline' | translate }}</p><br/>
+                <h3 style="text-align: center;">{{ 'booking.Step1' | translate }}</h3><br/>
+                <p>{{ 'booking.Step2' | translate }}</p><br/>
+                 <p>{{ 'booking.Step3' | translate }}</p>
+                  <p>{{ 'booking.Step4' | translate }}</p><br/>
+				<!-- Add more letters as needed -->
+			</div>
+		</div>
+        <div class="booking-left">
+			
+			<mat-form-field appearance="outline" class="booking-field">
+				<mat-label>{{ 'bookingform.cleaningtype0' | translate }}</mat-label>
+				<mat-select [(ngModel)]="serviceType" name="serviceType" required>
+					<mat-option value="Campus">{{ 'bookingform.cleaningtype1' | translate }}</mat-option>
+                    <mat-option value="moving">{{ 'bookingform.cleaningtype2' | translate }}</mat-option>
+					<mat-option value="window">{{ 'bookingform.cleaningtype3' | translate }}</mat-option>
+					<mat-option value="home">{{ 'bookingform.cleaningtype4' | translate }}</mat-option>
+					<mat-option value="office">{{ 'bookingform.cleaningtype5' | translate }}</mat-option>
+					<mat-option value="other">{{ 'bookingform.cleaningtype6' | translate }}</mat-option>
+					<mat-option value="homevisit">{{ 'bookingform.cleaningtype7' | translate }}</mat-option>
+					<mat-option value="floorscrubbing">{{ 'bookingform.cleaningtype8' | translate }}</mat-option>
+					<mat-option value="construction">{{ 'bookingform.cleaningtype9' | translate }}</mat-option>
+				</mat-select>
+				<mat-error *ngIf="!serviceType">This value is required</mat-error>
+			</mat-form-field>
+
+            @if (serviceType == 'Campus') {
+                <mat-form-field appearance="outline" class="booking-field">
+                    <mat-label>{{ 'bookingform.cleaningcampustype' | translate }}</mat-label>
+                    <mat-select [(ngModel)]="campusType" name="campusType" required (selectionChange)="onCampusTypeChange($event)">
+                        <mat-option value="home">{{ 'price.movingcleaning.Service1' | translate }}</mat-option>
+                        <mat-option value="general">{{ 'price.movingcleaning.Service2' | translate }}</mat-option>
+                        <mat-option value="moving1">{{ 'price.movingcleaning.Service3' | translate }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            }
+                    
+					
+
+            @if (serviceType == 'window') {
+                <mat-form-field appearance="outline" class="booking-field">
+                    <mat-label>{{ 'bookingform.cleaningcampustype2' | translate }}</mat-label>
+                        <mat-select [(ngModel)]="windowType" name="windowType" required (selectionChange)="onWindowTypeChange($event)">
+                        <mat-option value="window1">{{ 'bookingform.cleaningcampustype3' | translate }}</mat-option>
+                        <mat-option value="window2">{{ 'bookingform.cleaningcampustype4' | translate }}</mat-option>
+                        <mat-option value="window3">{{ 'bookingform.cleaningcampustype5' | translate }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!windowType">This value is required</mat-error>
+                </mat-form-field>
+                
+            }
+			@if (serviceType == 'window') {
+                <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.cleaningcampustype6' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="windowno" name="windowno" required />
+            </mat-form-field>
+                
+            }
+            @if (serviceType == 'moving') {
+                <mat-form-field appearance="outline" class="booking-field">
+                    <mat-label>{{ 'bookingform.cleaningcampustype7' | translate }}</mat-label>
+                    <mat-select [(ngModel)]="movingType" name="movingType" required (selectionChange)="onMovingTypeChange($event)">
+                        <mat-option value="Ser1">{{ 'price.movingcleaning.Service4' | translate }}</mat-option>
+                        <mat-option value="Ser2">{{ 'price.movingcleaning.Service5' | translate }}</mat-option>
+                        <mat-option value="Ser3">{{ 'price.movingcleaning.Service6' | translate }}</mat-option>
+                        <mat-option value="Ser4">{{ 'price.movingcleaning.Service7' | translate }}</mat-option>
+                        <mat-option value="Ser5">{{ 'price.movingcleaning.Service8' | translate }}</mat-option>
+                        <mat-option value="Ser6">{{ 'price.movingcleaning.Service9' | translate }}</mat-option>
+						<mat-option value="Ser7">{{ 'price.movingcleaning.Service10' | translate }}</mat-option>
+						<mat-option value="Ser8">{{ 'price.movingcleaning.Service11' | translate }}</mat-option>
+						<mat-option value="Ser9">{{ 'price.movingcleaning.Service12' | translate }}</mat-option>
+						<mat-option value="Ser10">{{ 'price.movingcleaning.Service13' | translate }}</mat-option>
+						<mat-option value="Ser11">{{ 'price.movingcleaning.Service14' | translate }}</mat-option>
+						<mat-option value="Ser12">{{ 'price.movingcleaning.Service15' | translate }}</mat-option>
+						<mat-option value="Ser13">{{ 'price.movingcleaning.Service16' | translate }}</mat-option>
+						<mat-option value="Ser14">{{ 'price.movingcleaning.Service17' | translate }}</mat-option>
+						<mat-option value="Ser15">{{ 'price.movingcleaning.Service18' | translate }}</mat-option>
+						<mat-option value="Ser16">{{ 'price.movingcleaning.Service19' | translate }}</mat-option>
+						<mat-option value="Ser17">{{ 'price.movingcleaning.Service20' | translate }}</mat-option>
+						
+                    </mat-select>
+                    <mat-error *ngIf="!movingType">This value is required</mat-error>
+                </mat-form-field>
+            }
+			 
+			@if (serviceType == 'moving') {
+            <!-- Stylish Yes/No Toggle Questions -->
+            <div class="booking-toggle-group">
+                <label class="toggle-label">{{ 'bookingform.cleaningcampustype8' | translate }}</label>
+                <mat-button-toggle-group class="toggle-btn-group" [(ngModel)]="furnitureAssembly" name="furnitureAssembly" exclusive>
+                    <mat-button-toggle class="toggle-btn" value="yes">Yes</mat-button-toggle>
+                    <mat-button-toggle class="toggle-btn" value="no">No</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div class="booking-toggle-group">
+                <label class="toggle-label">{{ 'bookingform.cleaningcampustype9' | translate }}</label>
+                <mat-button-toggle-group class="toggle-btn-group" [(ngModel)]="packingService" name="packingService" exclusive>
+                    <mat-button-toggle class="toggle-btn" value="yes">Yes</mat-button-toggle>
+                    <mat-button-toggle class="toggle-btn" value="no">No</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div class="booking-toggle-group">
+                <label class="toggle-label">{{ 'bookingform.cleaningcampustype10' | translate }}</label>
+                <mat-button-toggle-group class="toggle-btn-group" [(ngModel)]="storageService" name="storageService" exclusive>
+                    <mat-button-toggle class="toggle-btn" value="yes">Yes</mat-button-toggle>
+                    <mat-button-toggle class="toggle-btn" value="no">No</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+			}
+
+
+ 			<mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Selectdate' | translate }}</mat-label>
+                <input matInput [matDatepicker]="mainPicker" [(ngModel)]="mainDate" name="mainDate" required [min]="today" />
+                <mat-datepicker-toggle matSuffix [for]="mainPicker"></mat-datepicker-toggle>
+                <mat-datepicker #mainPicker></mat-datepicker>
+            </mat-form-field>
+
+            @if (serviceType == 'Campus') {
+                        <mat-form-field appearance="outline" class="booking-field">
+                            <mat-label>{{ 'bookingform.Selecttime' | translate }}</mat-label>
+                            <mat-select [(ngModel)]="selectedTime" name="selectedTime" required>
+                                <mat-option value="08:00">08:00</mat-option>
+                                <mat-option value="10:00">13:00</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="!selectedTime">Time slot is required</mat-error>
+                        </mat-form-field>
+                    }
+
+					@if (serviceType == 'moving') {
+                        <mat-form-field appearance="outline" class="booking-field">
+                            <mat-label>{{ 'bookingform.Selecttime' | translate }}</mat-label>
+                            <mat-select [(ngModel)]="selectedTime" name="selectedTime" required>
+                                <mat-option value="08:00">08:00</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="!selectedTime">Time slot is required</mat-error>
+                        </mat-form-field>
+                    }
+					@if(serviceType == 'window' || serviceType == 'home' || serviceType == 'office' || serviceType == 'other' || serviceType == 'homevisit' || serviceType == 'floorscrubbing' || serviceType == 'construction') {
+                <mat-form-field appearance="outline" class="booking-field">
+                    <mat-label>{{ 'bookingform.Selecttime' | translate }}</mat-label>
+                    <mat-select [(ngModel)]="selectedTime" name="selectedTime" required>
+                        <mat-option value="08:00">08:00</mat-option>
+                        <mat-option value="10:00">09:00</mat-option>
+                        <mat-option value="12:00">10:00</mat-option>
+                        <mat-option value="14:00">11:00</mat-option>
+                        <mat-option value="16:00">12:00</mat-option>
+                        <mat-option value="16:00">13:00</mat-option>
+                        <mat-option value="16:00">14:00</mat-option>
+                        <mat-option value="16:00">15:00</mat-option>
+                        <mat-option value="16:00">16:00</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!selectedTime">Time slot is required</mat-error>
+                </mat-form-field>
+            
+					}
+
+           
+			
+
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Name' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="name" name="name" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Email' | translate }}</mat-label>
+                <input matInput type="email" [(ngModel)]="email" name="email" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Phone' | translate }}</mat-label>
+                <input matInput type="tel" [(ngModel)]="phone" name="phone" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.personalnumber' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="personalid" name="personalid" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Address' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="address" name="address" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Apartment' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="apartment" name="apartment" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.ZIP' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="numberzip" name="zip" />
+ 			</mat-form-field>
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.City' | translate }}</mat-label>
+                <input matInput type="text" [(ngModel)]="city" name="city" />
+ 			</mat-form-field>
+
+            <mat-form-field appearance="outline" class="booking-field">
+                <mat-label>{{ 'bookingform.Message' | translate }}</mat-label>
+                <textarea matInput rows="4" [(ngModel)]="message" name="message"></textarea>
+            </mat-form-field>
+
+            <button mat-raised-button class="booking-submit modern-btn" (click)="submitBooking()" [disabled]="isLoading">
+                <mat-icon class="submit-icon"></mat-icon>
+                <span *ngIf="!isLoading">{{ 'PlaceOrder' | translate }}</span>
+                <mat-progress-spinner *ngIf="isLoading" diameter="22" mode="indeterminate" color="primary" style="vertical-align: middle; margin-left: 8px;" strokeWidth="3"></mat-progress-spinner>
+            </button>
+        </div>
+	</div>
+</div><br/>

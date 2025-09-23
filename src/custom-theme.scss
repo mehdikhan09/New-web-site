@@ -1,0 +1,19 @@
+// 1️⃣ Import Angular Material theming at the very top
+@use '@angular/material' as mat;
+
+// 2️⃣ Include the Material core styles
+@include mat.core();
+
+// 3️⃣ Set global font and base colors
+body, html, * {
+   font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  // Or any background
+  color: black; // Default text color
+}
+
+// 4️⃣ Optional: Customize Angular Material component variables
+:root {
+  --mat-primary: #03a9f4;   // Azure-ish
+  --mat-secondary: #2196f3; // Blue-ish
+}

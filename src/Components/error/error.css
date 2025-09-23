@@ -1,0 +1,41 @@
+.error-container {
+  text-align: center;
+  padding: 80px 20px;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.error-container h1 {
+  font-size: 120px;
+  margin: 0;
+  color: #f44336;
+  font-weight: bold;
+}
+
+.error-container h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.error-container p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #ffd600 0%, #1976d2 100%) !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.12);
+  letter-spacing: 0.5px;
+  border: none;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+button:hover {
+  box-shadow: 0 4px 16px rgba(25,118,210,0.18);
+  background: linear-gradient(90deg, #1976d2 0%, #ffd600 100%) !important;
+  color: #1976d2 !important;
+}

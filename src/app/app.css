@@ -1,0 +1,42 @@
+/* Responsive ad-video-box for mobile view */
+@media (max-width: 600px) {
+  #ad-video-box {
+    width: 95vw !important;
+    height: 180px !important;
+    left: 2vw !important;
+    bottom: 10px !important;
+    padding: 6px !important;
+  }
+  #ad-video-box video {
+    width: 90vw !important;
+    height: 176px  !important;
+  }
+}
+/* Hide Booking button in navbar on mobile view */
+@media (max-width: 767px) {
+  a.booking-btn,
+  .mat-toolbar .booking-btn {
+    display: none !important;
+  }
+}
+/* Hide Booking button in navbar on mobile view */
+
+/* Custom background color for the button */
+.custom-bg {
+  background: linear-gradient(90deg,  #1976d2 0% , #ffd600 100%) !important;
+  color: white;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  
+}
+
+.floating-action-btn-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}

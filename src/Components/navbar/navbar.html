@@ -1,0 +1,57 @@
+<mat-toolbar color="prim">
+  <span class="logo" routerLink="/home"><img src="assets/img/home4.png" style="width:176px;" alt="Company Logo"></span>
+  <span class="spacer"></span>
+
+  <!-- desktop nav -->
+ 
+  <nav class="d-none d-md-flex">
+  <a mat-button class="fonts" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ 'HELLO' | translate }}</a>
+  <a mat-button class="fonts" routerLink="/about" routerLinkActive="active">{{ 'About_Us' | translate }}</a>
+  <a mat-button class="fonts"
+   routerLink="/services"
+   [matMenuTriggerFor]="servicesMenu"
+   routerLinkActive="active"
+   #servicesRLA="routerLinkActive"
+   [class.active]="servicesRLA.isActive">
+   {{ 'Services' | translate }}
+</a>
+
+  <a mat-button class="fonts" routerLink="/pricing" routerLinkActive="active">{{ 'Price' | translate }}</a>
+  <a mat-button class="fonts" routerLink="/gallery" routerLinkActive="active">{{ 'Photos' | translate }}</a>
+  <a mat-button class="fonts" routerLink="/contact" routerLinkActive="active">{{ 'Contact' | translate }}</a>
+  <a mat-button class="fonts booking-btn" mat-raised-button color="accent" routerLink="/booking" routerLinkActive="active" >{{ 'Booking' | translate }} </a>
+</nav>
+
+  <!-- always visible -->
+  
+  <a mat-button class="fonts1" (click)="switchLang('en')">En</a>
+  <a mat-button class="fonts1" (click)="switchLang('sv')">Sv</a>
+
+  <!-- mobile burger -->
+  <button mat-icon-button [matMenuTriggerFor]="mainMenu" class="d-md-none">
+    <img src="assets/img/menu-line.svg" alt="Menu" />
+  </button>
+</mat-toolbar>
+
+<!-- services sub-menu -->
+<mat-menu #servicesMenu="matMenu">
+  <button class="fonts" mat-menu-item routerLink="/HomeCleaning">{{ 'HomeCleaning' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/MovingCleaning"> {{ 'MovingCleaning' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/GeneralCleaning"> {{ 'GeneralCleaning' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/WindowCleaning">{{ 'WindowCleaning ' | translate }}</button>
+  
+  <button class="fonts" mat-menu-item routerLink="/error">{{ 'OfficeCleaning ' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/error">{{ 'ConstructionCleaning ' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/error">{{ 'CampusMovingCleaning ' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/error">{{ 'Floorscrubbing ' | translate }}</button>
+</mat-menu>
+
+<!-- mobile main menu -->
+<mat-menu #mainMenu="matMenu">
+  <button class="fonts" mat-menu-item routerLink="/home">{{ 'HELLO' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/about">{{ 'About_Us' | translate }}</button>
+  <button class="fonts" mat-menu-item [matMenuTriggerFor]="servicesMenu">{{ 'Services' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/pricing">{{ 'Price' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/gallery">{{ 'Photos' | translate }}</button>
+  <button class="fonts" mat-menu-item routerLink="/contact">{{ 'Contact' | translate }}</button>
+</mat-menu>

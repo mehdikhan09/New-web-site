@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://cleanpro-core.captain.ooguy.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

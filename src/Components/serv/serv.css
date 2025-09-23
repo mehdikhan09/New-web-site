@@ -1,0 +1,110 @@
+.section-headline::after {
+	content: '';
+	display: block;
+	margin: 12px auto 0 auto;
+	width: 125px;
+	height: 8px;
+	background: linear-gradient(90deg, #1976d2 0%, #ffd700 100%);
+	border-radius: 2px;
+	transition: width 0.3s, height 0.3s;
+}
+.section-headline:hover::after {
+		max-width: 140px;
+		max-height: 140px;
+}
+.section-headline {
+	text-align: center;
+	font-size: 2.2rem;
+	margin-bottom: 24px;
+	position: relative;
+}
+
+.section-headline::after {
+	content: '';
+	display: block;
+	margin: 12px auto 0 auto;
+	width: 150px;
+	height: 4px;
+	background: linear-gradient(90deg, #1976d2 0%, #ffd700 100%);
+	border-radius: 2px;
+}
+
+
+.single-line-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 50px;
+  margin: 32px 50px;
+  background-color: white;
+  padding: 24px 32px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(30, 60, 90, 0.12);
+  transition: box-shadow 0.3s, transform 0.3s;
+  height: 200px;
+  cursor: pointer;
+}
+
+.single-line-content:hover {
+  box-shadow: 0 8px 32px rgba(30, 60, 90, 0.18);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.single-line-content img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(30, 60, 90, 0.10);
+}
+
+.single-line-content h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 24px 0 0;
+  color: #1976d2;
+  letter-spacing: 1px;
+}
+
+.single-line-content p {
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+  flex: 1;
+  line-height: 1.6;
+}
+body{
+	overflow: hidden;
+}
+
+
+@media (max-width: 700px) {
+  .single-line-content {
+    flex-direction: column;
+    padding: 16px 8px;
+    margin: 16px 4px;
+    column-gap: 0;
+    row-gap: 16px;
+    text-align: center;
+    height: auto;
+  }
+  .single-line-content img {
+    max-width: 120px;
+    margin: 0 auto;
+  }
+  .single-line-content h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    white-space: normal;
+    width: 100%;
+  }
+  .single-line-content p {
+    margin: 0;
+    width: 100%;
+    flex: unset;
+    font-size: 1rem;
+    color: #333;
+    word-break: break-word;
+  }
+}

@@ -1,0 +1,14 @@
+.reviews-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.reviews-container iframe {
+  width: 100%;
+  min-height: 350px;
+  border: none;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

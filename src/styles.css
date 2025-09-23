@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+  background: linear-gradient(90deg, #ffd600 0%, #1976d2 100%) !important;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-toolbar {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mat-menu-item {
+  font-family: 'Montserrat', sans-serif !important;
+}

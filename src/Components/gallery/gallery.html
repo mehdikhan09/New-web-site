@@ -1,0 +1,30 @@
+<br/><br/><div class="container section-title " data-aos="fade-up">
+            <h2  class="section-headline">{{ 'Photos' | translate }}</h2>
+        
+
+<div class="gallery-filters">
+  <button (click)="selectedCategory = 'all'" [class.active]="selectedCategory === 'all'">{{ 'Gallery_Headline' | translate }}</button>
+  <button (click)="selectedCategory = 'bathroom'" [class.active]="selectedCategory === 'bathroom'">{{ 'Gallery_Photo1_Alt' | translate }}</button>
+  <button (click)="selectedCategory = 'room'" [class.active]="selectedCategory === 'room'">{{ 'Gallery_Photo2_Alt' | translate }}</button>
+  <button (click)="selectedCategory = 'window'" [class.active]="selectedCategory === 'window'">{{ 'Gallery_Photo3_Alt' | translate }}</button>
+  <button (click)="selectedCategory = 'kitchen'" [class.active]="selectedCategory === 'kitchen'">{{ 'Gallery_Photo4_Alt' | translate }}</button>
+</div>
+
+<div class="gallery-container">
+  <div class="gallery-grid">
+    <div class="gallery-item"
+         *ngFor="let img of images"
+         [style.width]="img.size ? img.size : '300px'"
+         [hidden]="selectedCategory !== 'all' && img.category !== selectedCategory"
+         (click)="openModal(img)">
+      <img [src]="img.src" [alt]="img.alt" />
+    </div>
+  </div>
+</div>
+
+<div class="gallery-modal" *ngIf="modalImage" (click)="closeModal()">
+  <div class="gallery-modal-content" (click)="$event.stopPropagation()">
+    <button class="gallery-modal-close" (click)="closeModal()">&times;</button>
+    <img [src]="modalImage.src" [alt]="modalImage.alt" />
+  </div>
+</div>
