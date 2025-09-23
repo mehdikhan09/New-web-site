@@ -5,7 +5,7 @@ import {
   Platform,
   coerceElement,
   coerceNumberProperty
-} from "./chunk-TFLNAUYB.js";
+} from "./chunk-SJDMQCII.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -501,4 +501,4 @@ export {
   CdkTextareaAutosize,
   TextFieldModule
 };
-//# sourceMappingURL=chunk-NCBFEIM4.js.map
+//# sourceMappingURL=chunk-UUGO3F65.js.map

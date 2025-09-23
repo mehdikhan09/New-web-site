@@ -12,10 +12,13 @@
   "WindowCleaning": "Fönsterputs",
   "PlaceOrder": "Lägg beställning",
   "OfficeCleaning": "Kontorsstädning",
-"ConstructionCleaning": "Byggstädning",
-"CampusMovingCleaning": "Campus flyttstädning",
+ "ConstructionCleaning": "Byggstädning",
+ "CampusMovingCleaning": "Campus flyttstädning",
 "Floorscrubbing": "Golvvård",
 
+ "Trainedprofessionals": "Utbildade proffs",
+  "Insuranceincluded": "Försäkring ingår",
+  "Fixedprices": "Fasta priser",
 
   "Gallery_Headline": "Alla",
   "Gallery_Photo1_Alt": "Badrum",
