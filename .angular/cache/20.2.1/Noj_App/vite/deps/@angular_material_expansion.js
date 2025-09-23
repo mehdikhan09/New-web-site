@@ -1,11 +1,12 @@
 import {
+  UniqueSelectionDispatcher
+} from "./chunk-VGJJF6HP.js";
+import {
   CdkPortalOutlet,
   PortalModule,
   TemplatePortal
 } from "./chunk-J4WGZSG7.js";
-import {
-  UniqueSelectionDispatcher
-} from "./chunk-VGJJF6HP.js";
+import "./chunk-DZ3Y4YDY.js";
 import {
   _StructuralStylesLoader
 } from "./chunk-E2YLKWVY.js";
@@ -21,7 +22,6 @@ import {
   _IdGenerator,
   hasModifierKey
 } from "./chunk-4UW3SSP4.js";
-import "./chunk-DZ3Y4YDY.js";
 import "./chunk-E57GI2L4.js";
 import {
   _CdkPrivateStyleLoader

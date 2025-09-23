@@ -14,6 +14,7 @@ import {
   ScrollDispatcher,
   ViewportRuler
 } from "./chunk-KEIJXXXD.js";
+import "./chunk-DZ3Y4YDY.js";
 import {
   MatRipple,
   MatRippleModule
@@ -45,7 +46,6 @@ import {
   isFakeMousedownFromScreenReader,
   isFakeTouchstartFromScreenReader
 } from "./chunk-4UW3SSP4.js";
-import "./chunk-DZ3Y4YDY.js";
 import "./chunk-7UJZXIJQ.js";
 import {
   Directionality

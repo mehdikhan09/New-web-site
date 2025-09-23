@@ -17,6 +17,7 @@ import {
 import {
   CdkScrollable
 } from "./chunk-KEIJXXXD.js";
+import "./chunk-DZ3Y4YDY.js";
 import "./chunk-VENV3F3G.js";
 import {
   _animationsDisabled
@@ -33,7 +34,6 @@ import {
   _getFocusedElementPierceShadowDom,
   hasModifierKey
 } from "./chunk-4UW3SSP4.js";
-import "./chunk-DZ3Y4YDY.js";
 import "./chunk-7UJZXIJQ.js";
 import {
   Directionality
