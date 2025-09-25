@@ -1,4 +1,4 @@
-<div *ngIf="showAdBox" id="ad-video-box" style="
+<div *ngIf="showAdBox && !isLoginPage" id="ad-video-box" style="
     position: fixed;
     left: 20px;
     bottom: 6px;
@@ -26,15 +26,15 @@
         Your browser does not support the video tag.
     </video>
 </div>
-<app-navbar></app-navbar>
+<app-navbar *ngIf="!isLoginPage"></app-navbar>
 <router-outlet></router-outlet>
 
-<app-recoreviews></app-recoreviews>
+<app-recoreviews *ngIf="!isLoginPage"></app-recoreviews>
 
 <!-- Floating Social Media Buttons -->
 
 
-<div class="floating-action-btn-wrapper">
+<div class="floating-action-btn-wrapper" *ngIf="!isLoginPage">
  <button routerLink="/booking"  mat-raised-button color="accent" class="fonts custom-bg" style="font-weight: bold;">
   {{ 'Booking' | translate }}
  </button>
@@ -44,4 +44,4 @@
 
 
 
-<app-footer></app-footer>
+<app-footer *ngIf="!isLoginPage"></app-footer>

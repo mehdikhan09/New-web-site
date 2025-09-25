@@ -1,0 +1,90 @@
+<div class="login-container">
+  <div class="login-card-wrapper">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <div class="login-header">
+          <mat-icon class="login-icon">lock</mat-icon>
+          <mat-card-title>{{ 'Login' | translate }}</mat-card-title>
+          <mat-card-subtitle>{{ 'Please enter your credentials' | translate }}</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content class="login-content">
+        <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+          <!-- Username Field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'Username' | translate }}</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="username" 
+              name="username" 
+              required
+              autocomplete="username"
+              placeholder="Enter your username"
+            >
+            <mat-icon matPrefix>person</mat-icon>
+          </mat-form-field>
+
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'Password' | translate }}</mat-label>
+            <input 
+              matInput 
+              [type]="hidePassword ? 'password' : 'text'"
+              [(ngModel)]="password" 
+              name="password" 
+              required
+              autocomplete="current-password"
+              placeholder="Enter your password"
+            >
+            <mat-icon matPrefix>lock</mat-icon>
+            <button 
+              mat-icon-button 
+              matSuffix 
+              (click)="togglePasswordVisibility()" 
+              type="button"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="errorMessage">
+            <mat-icon color="warn">error</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="button-container">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              class="login-button"
+              [disabled]="isLoading || !username || !password">
+              <mat-icon *ngIf="isLoading">hourglass_empty</mat-icon>
+              <mat-icon *ngIf="!isLoading">login</mat-icon>
+              {{ isLoading ? 'Logging in...' : 'Login' | translate }}
+            </button>
+
+            <button 
+              mat-button 
+              type="button" 
+              class="cancel-button"
+              (click)="onCancel()"
+              [disabled]="isLoading">
+              {{ 'Cancel' | translate }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+
+      <!-- Footer -->
+      <mat-card-footer class="login-footer">
+        <p>{{ 'Shortcut: Ctrl + L to open login' | translate }}</p>
+        <small>{{ 'Default: admin / password' | translate }}</small>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

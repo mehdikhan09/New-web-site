@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, signal, AfterViewInit, OnInit, HostListener } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,11 +19,6 @@ import { importProvidersFrom } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { HomeComponent } from "../Components/home/home";
-import { AboutUsComponent } from '../Components/about-us/about-us';
-import { Serv } from '../Components/serv/serv';
-import { Price } from '../Components/price/price';
-import { ContactUs } from '../Components/contact-us/contact-us';
 import { MatButtonModule } from '@angular/material/button';
 
 
@@ -36,12 +32,6 @@ import { MatButtonModule } from '@angular/material/button';
     TranslateModule,
     MatCardModule,
     MatGridListModule,
-    Recoreviews, 
-    AboutUsComponent,
-    HomeComponent,
-    Serv,
-    Price,
-    ContactUs,
     RouterModule,
     MatButtonModule,
     CommonModule,
@@ -49,16 +39,26 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements AfterViewInit {
+export class App implements OnInit, AfterViewInit {
+  public showAdBox: boolean = true;
+  isLoginPage = false;
+
   ngOnInit() {
     this.showAdBox = true; // Ensure ad box is visible on page load
     console.log('showAdBox:', this.showAdBox);
+    
+    // Subscribe to router events to track current route
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.isLoginPage = event.url === '/login';
+      });
   }
-  public showAdBox: boolean = true;
 
   hideAdBox() {
     this.showAdBox = false;
   }
+
   protected readonly title = signal('Noj_App');
 
   constructor(private router: Router) {}
@@ -72,5 +72,24 @@ export class App implements AfterViewInit {
     if (video) {
       video.muted = true;
     }
+  }
+
+  // Keyboard shortcut to open login page
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // Ctrl + L to open login page
+    if (event.ctrlKey && event.key.toLowerCase() === 'l') {
+      event.preventDefault(); // Prevent default browser behavior
+      this.openLogin();
+    }
+    // Alt + L as alternative shortcut
+    if (event.altKey && event.key.toLowerCase() === 'l') {
+      event.preventDefault();
+      this.openLogin();
+    }
+  }
+
+  openLogin() {
+    this.router.navigate(['/login']);
   }
 }

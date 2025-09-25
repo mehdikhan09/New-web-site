@@ -106,10 +106,15 @@
         <mat-expansion-panel-header>
           <mat-panel-title style="font-weight: bold;">
             {{ 'Home_Cleaning.ServicePrice3' | translate }}
+            
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <p style="font-weight: bold;">{{ 'Home_Cleaning.ServicePrice3Desc' | translate }}</p>
-        <p>{{ 'Home_Cleaning.ServicePrice4' | translate }}</p>
+        <!-- <p style="font-weight: bold;">{{ 'Home_Cleaning.ServicePrice3Desc' | translate }}</p>
+        <p>{{ 'Home_Cleaning.ServicePrice4' | translate }}</p> -->
+
+        <p (click)="showPricingPopup()" style="cursor: pointer; color: #007bff; text-decoration: underline; margin: 10px 0;">
+           {{ 'Home_Cleaning.Price' | translate }}
+        </p>
       </mat-expansion-panel>
 
       <mat-expansion-panel >

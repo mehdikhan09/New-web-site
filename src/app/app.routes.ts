@@ -12,6 +12,7 @@ import { MovingCleaning } from '../Components/moving-cleaning/moving-cleaning';
 import { Generalcleaning } from '../Components/generalcleaning/generalcleaning';
 import { Windowcleaning } from '../Components/windowcleaning/windowcleaning';
 import { Gallery } from '../Components/gallery/gallery';
+import { Login } from '../Components/login/login';
 
 
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'pricing', component: Price },
   { path: 'contact', component: ContactUs },
   { path: 'booking', component: Booking },
+  { path: 'login', component: Login },
   { path: 'photos', component: Error },
   { path: 'HomeCleaning', component: Homecleaning },
   { path: 'MovingCleaning', component: MovingCleaning },
