@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  contactApiUrl: 'https://cleanhq.coolify.ooguy.com/api/submit-booking/contact'
+  contactApiUrl: 'https://nojdstad-api.azurewebsites.net/inquiries'
 };

@@ -15,7 +15,7 @@ describe('ContactUs', () => {
     fixture = TestBed.createComponent(ContactUs);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  });contactApiUrl
 
   it('should create', () => {
     expect(component).toBeTruthy();

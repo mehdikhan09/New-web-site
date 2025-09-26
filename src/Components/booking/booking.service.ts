@@ -22,15 +22,9 @@ export class BookingService {
 
 
   submitBooking(data: any, language: string = 'en') {
-    const headers = new HttpHeaders({
-      'X-Customer-ID': 'SE00151',
-      'X-Language': language
+    console.log('Language parameter:', language);
 
-
-    });
-    console.log('Language set in headers:', language);
-
-  return this.http.post(environment.apiUrl, data, { headers });
+    return this.http.post(environment.apiUrl, data);
   }
  
 

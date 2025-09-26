@@ -2,8 +2,7 @@
 	.booking-btn1 {
 		display: none !important;
 	}
-}
-@media (max-width: 767px) {
+	
 	.home-img {
 		width: 300px;
 		height: 300px;
@@ -11,7 +10,35 @@
 		margin: 0 auto;
 		object-fit: contain;
 	}
+	
+	.home-flex {
+		flex-direction: column-reverse;
+		align-items: stretch;
+		justify-content: flex-start;
+		max-width: 100vw;
+		padding: 0 4px;
+	}
+	
+	.home-right {
+		margin-right: 50px;
+		justify-content: center;
+		margin-top: 24px;
+	}
+	
+	.home-img {
+		display: block;
+		margin: 0 auto;
+		height: 220px;
+		width: 220px;
+		object-fit: contain;
+	}
+	
+	.home-left {
+		padding: 16px 8px;
+		min-width: 0;
+	}
 }
+
 .home-flex {
 	display: flex;
 	flex-direction: row;
@@ -21,58 +48,79 @@
 	max-width: 100%;
 	margin: 0 auto;
 	box-sizing: border-box;
-  margin-left: 25px;
+	margin-left: 25px;
 }
+
 .home-left {
 	flex: 1;
 	min-width: 260px;
-  box-sizing: border-box;
-	.home-flex {
-		flex-direction: column-reverse;
-		align-items: stretch;
-		justify-content: flex-start;
-		max-width: 100vw;
-		padding: 0 4px;
-	}
-	.home-right {
-		margin-right: 50px;
-		justify-content: center;
-		margin-top: 24px;
-	}
-		.home-img {
-			display: block;
-			margin: 0 auto;
-			height: 220px;
-			width: 220px;
-			object-fit: contain;
-		}
-	.home-left {
-		padding: 16px 8px;
-		min-width: 0;
-	}
+	box-sizing: border-box;
 }
-@media (max-width: 767px) {
-	.home-flex {
-		flex-direction: column-reverse;
-		align-items: stretch;
-		justify-content: flex-start;
-		
-   
-	}
-	}
-	.home-right {
-		margin-right: 50px;
-		justify-content: center;
-		margin-top: 24px;
-	}
-	.home-img {
-		
-		margin: 0 auto;
-  
-	}
-	.home-left {
-		padding: 16px 8px;
-		min-width: 0;
-    
-	}
+
+.home-right {
+	margin-right: 50px;
+	justify-content: center;
+	margin-top: 24px;
+}
+
+.home-img {
+	margin: 0 auto;
+}
+
+/* Modern styled bullet points */
+.home-left ul {
+	list-style: none;
+	padding: 0;
+	margin: 20px 0;
+}
+
+.home-left ul li {
+	position: relative;
+	padding: 12px 0 12px 35px;
+	margin: 8px 0;
+	font-size: 16px;
+	font-weight: 500;
+	color: #333;
+	transition: all 0.3s ease;
+}
+
+.home-left ul li::before {
+	content: '✓';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 24px;
+	height: 24px;
+	background: linear-gradient(135deg, #4CAF50, #45a049);
+	color: white;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	font-weight: bold;
+	box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.home-left ul li:hover {
+	color: #2c5530;
+	transform: translateX(5px);
+}
+
+.home-left ul li:hover::before {
+	background: linear-gradient(135deg, #45a049, #4CAF50);
+	box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+	transform: translateY(-50%) scale(1.1);
+}
+
+/* Alternative styles - add these classes to your ul element */
+.home-left ul.style-2 li::before {
+	content: '★';
+	background: linear-gradient(135deg, #FF6B35, #F7931E);
+}
+
+.home-left ul.style-3 li::before {
+	content: '●';
+	background: linear-gradient(135deg, #667eea, #764ba2);
 }

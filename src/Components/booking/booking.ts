@@ -187,18 +187,19 @@ export class Booking implements AfterViewInit {
         serviceTypetxt = this.serviceType;
     }
     this.allBookingData = {
-      typeOfCleaningService: serviceTypetxt,
-      preferredDate: formattedDate,
-      preferredTime: this.selectedTime,
-      fullName: this.name,
-      emailAddress: this.email,
-      phoneNumber: this.phone,
-      civicNumber: this.personalid,
-      address: this.address,
-      apartment: this.apartment,
-      postalCode: this.numberzip,
-      city: this.city,
-      otherInformation: this.OtherInformation,
+      CleaningTypeName: serviceTypetxt,
+      PreferredDate: formattedDate,
+      PreferredTime: this.selectedTime,
+      FullName: this.name,
+      EmailAddress: this.email,
+      PhoneNumber: this.phone,
+      PersonalNumber: this.personalid,
+      FullAddress: this.address,
+      ApartmentNumber: this.apartment,
+      PostalCode: this.numberzip,
+      City: this.city,
+      Comments: this.OtherInformation,
+      Language: "en",
     };
   const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
   this.bookingService.submitBooking(this.allBookingData, lang).subscribe({

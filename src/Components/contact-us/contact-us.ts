@@ -60,9 +60,9 @@ export class ContactUs {
     }
     const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
     const data = {
-      name: this.name,
+     
       email: this.email,
-      subject: this.subject,
+      phone_number: this.subject,
       message: this.message
     };
     this.contactService.sendContact(data, lang).subscribe({
