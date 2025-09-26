@@ -1,5 +1,8 @@
 import { MatDialog } from '@angular/material/dialog';
 import { BookingMessageDialog } from './booking-message-dialog.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ConfigService } from '../../app/services/config.service';
+import { timeout } from 'rxjs/operators';
 // ...existing imports...
 // ...existing imports...
 import { Component } from '@angular/core';
@@ -43,9 +46,10 @@ console.log('Imported BookingService from ./booking.service');
     MatDatepickerModule,
     MatNativeDateModule,
     CommonModule,
-  FormsModule,
-  MatProgressSpinnerModule,
-  BookingMessageDialog
+    FormsModule,
+    MatProgressSpinnerModule,
+    BookingMessageDialog,
+    HttpClientModule
   ],
   templateUrl: './booking.html',
   styleUrl: './booking.css'
@@ -131,15 +135,110 @@ export class Booking implements AfterViewInit {
   constructor(
     private bookingService: BookingService,
     private dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private http: HttpClient,
+    private configService: ConfigService
   ) {}
 
+  // Validation method to check if all required fields are filled
+  validateForm(): string[] {
+    const errors: string[] = [];
+    
+    // Check service type
+    if (!this.serviceType) {
+      errors.push('Service type is required');
+    }
+    
+    // Check conditional required fields based on service type
+    if (this.serviceType === 'Campus' && !this.campusType) {
+      errors.push('Campus type is required');
+    }
+    
+    if (this.serviceType === 'window') {
+      if (!this.windowType) {
+        errors.push('Window type is required');
+      }
+      if (!this.windowno) {
+        errors.push('Number of windows is required');
+      }
+    }
+    
+    if (this.serviceType === 'moving' && !this.movingType) {
+      errors.push('Moving type is required');
+    }
+    
+    // Check main date
+    if (!this.mainDate) {
+      errors.push('Date is required');
+    }
+    
+    // Check selected time
+    if (!this.selectedTime) {
+      errors.push('Time slot is required');
+    }
+    
+    // Check personal information
+    if (!this.name || this.name.trim() === '') {
+      errors.push('Name is required');
+    }
+    
+    if (!this.email || this.email.trim() === '') {
+      errors.push('Email is required');
+    } else if (!this.isValidEmail(this.email)) {
+      errors.push('Valid email is required');
+    }
+    
+    if (!this.phone || this.phone.trim() === '') {
+      errors.push('Phone number is required');
+    }
+    
+    if (!this.personalid || this.personalid.trim() === '') {
+      errors.push('Personal ID is required');
+    }
+    
+    if (!this.address || this.address.trim() === '') {
+      errors.push('Address is required');
+    }
+    
+    return errors;
+  }
+  
+  // Email validation helper method
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+  // Show error dialog
+  showErrorDialog(errors: string[]) {
+    const errorMessage = errors.join('\n• ');
+    this.dialog.open(BookingMessageDialog, {
+      data: { 
+        message: `Please fill in the following required fields:\n• ${errorMessage}`, 
+        success: false 
+      },
+      width: '400px'
+    });
+  }
+
   submitBooking() {
+    // First validate the form
+    const validationErrors = this.validateForm();
+    
+    if (validationErrors.length > 0) {
+      // Show validation errors and stop submission
+      this.showErrorDialog(validationErrors);
+      return;
+    }
+    
+    // If validation passes, proceed with submission
     this.responseMessage = '';
     this.responseSuccess = false;
     this.isLoading = true;
+    
     let formattedDate = this.mainDate ? this.mainDate.toISOString().slice(0, 10) : '';
     let serviceTypetxt = '';
+    
     switch (this.serviceType) {
       case 'Campus':
         serviceTypetxt = 'Campus Moving Cleaning';
@@ -186,6 +285,7 @@ export class Booking implements AfterViewInit {
       default:
         serviceTypetxt = this.serviceType;
     }
+    
     this.allBookingData = {
       CleaningTypeName: serviceTypetxt,
       PreferredDate: formattedDate,
@@ -201,25 +301,97 @@ export class Booking implements AfterViewInit {
       Comments: this.OtherInformation,
       Language: "en",
     };
-  const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
-  this.bookingService.submitBooking(this.allBookingData, lang).subscribe({
+    
+    // Send booking data to API
+    this.sendBookingToAPI();
+  }
+  
+  // Send booking data to API using ConfigService
+  private sendBookingToAPI() {
+    if (!this.configService.isConfigValid()) {
+      console.error('API configuration is invalid');
+      this.isLoading = false;
+      this.showErrorMessage('System configuration error. Please try again later.');
+      return;
+    }
+
+    // Get API URL and headers from ConfigService
+    const apiUrl = this.configService.getApiUrl('booking');
+    const headers = this.configService.getApiHeaders();
+    const securityConfig = this.configService.getSecurityConfig();
+
+    // Secure logging
+    console.log('Sending booking request...');
+    console.log('Booking payload contains:', {
+      CleaningTypeName: this.allBookingData.CleaningTypeName || 'Missing',
+      PreferredDate: this.allBookingData.PreferredDate || 'Missing',
+      FullName: this.allBookingData.FullName || 'Missing',
+      EmailAddress: '***@***.***',
+      PhoneNumber: '***-***-****',
+      Language: this.allBookingData.Language
+    });
+
+    // Set timeout for the request
+    const requestOptions = {
+      headers: headers
+    };
+
+    this.http.post(apiUrl, this.allBookingData, requestOptions)
+      .pipe(timeout(securityConfig.timeout))
+      .subscribe({
       next: (response: any) => {
+        console.log('Booking submitted successfully');
         this.isLoading = false;
-        this.responseSuccess = true;
+        
+        // Show success message
         this.dialog.open(BookingMessageDialog, {
-          data: { message: 'Booking submitted successfully!', success: true },
+          data: { 
+            message: 'Your booking has been submitted successfully! We will contact you soon to confirm your appointment.', 
+            success: true 
+          },
+          width: '400px'
         });
+        
+        // Clear form after successful submission
         this.clearForm();
       },
       error: (error) => {
+        console.error('Booking submission failed');
         this.isLoading = false;
-        this.responseSuccess = false;
-        this.dialog.open(BookingMessageDialog, {
-          data: { message: 'Booking failed. Please try again.', success: false },
-        });
+        
+        // Show error message based on error type
+        let errorMessage = 'Sorry, there was an error submitting your booking. Please try again later.';
+        
+        if (error.status === 0) {
+          errorMessage = 'Unable to connect to the server. Please check your internet connection and try again.';
+        } else if (error.status === 429) {
+          errorMessage = 'Too many requests. Please wait a moment and try again.';
+        } else if (error.status >= 500) {
+          errorMessage = 'Server error. Please try again in a few minutes.';
+        }
+        
+        this.showErrorMessage(errorMessage);
       }
     });
   }
+  
+  // Helper method to show error messages
+  private showErrorMessage(message: string) {
+    this.dialog.open(BookingMessageDialog, {
+      data: { 
+        message: message, 
+        success: false 
+      },
+      width: '400px'
+    });
+  }
+  
+  // WhatsApp messaging functionality
+  
+  
+ 
+  
+ 
   clearForm() {
     this.serviceType = '';
     this.campusType = '';

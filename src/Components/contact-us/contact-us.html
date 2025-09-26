@@ -51,35 +51,41 @@
 
 
 		<div class="contact-right">
+			<form #contactForm="ngForm" novalidate>
 			   <mat-form-field appearance="outline" class="contact-field">
 				   <mat-label>{{ 'contact.NAME' | translate }}</mat-label>
 				   <input matInput type="text" required [(ngModel)]="name" name="name" #nameModel="ngModel" />
-				   <mat-error *ngIf="nameModel.invalid && nameModel.touched"></mat-error>
+				   <mat-error *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)" style="color: #ff0000 !important;">
+					   <span *ngIf="nameModel.errors?.['required']" style="color: #ff0000 !important;">Name is required</span>
+				   </mat-error>
 			   </mat-form-field>
 			<mat-form-field appearance="outline" class="contact-field">
 				 <mat-label>{{ 'contact.EMAIL' | translate }}</mat-label>
 				 <input matInput type="email" required email [(ngModel)]="email" name="email" #emailModel="ngModel" />
-				 <mat-error *ngIf="emailModel.errors?.['required'] && emailModel.touched">
-					
-				 </mat-error>
-				 <mat-error *ngIf="emailModel.errors?.['email'] && emailModel.touched">
-					
+				 <mat-error *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)" style="color: #ff0000 !important;">
+					<span *ngIf="emailModel.errors?.['required']" style="color: #ff0000 !important;">Email is required</span>
+					<span *ngIf="emailModel.errors?.['email']" style="color: #ff0000 !important;">Please enter a valid email address</span>
 				 </mat-error>
 			</mat-form-field>
 				<mat-form-field appearance="outline" class="contact-field">
 				   <mat-label>{{ 'contact.Subject' | translate }}</mat-label>
 				   <input matInput type="text" required [(ngModel)]="subject" name="subject" #subjectModel="ngModel" />
-				   <mat-error *ngIf="subjectModel.invalid && subjectModel.touched"></mat-error>
+				   <mat-error *ngIf="subjectModel.invalid && (subjectModel.dirty || subjectModel.touched)" style="color: #ff0000 !important;">
+					   <span *ngIf="subjectModel.errors?.['required']" style="color: #ff0000 !important;">Subject is required</span>
+				   </mat-error>
 			   </mat-form-field>
 			   <mat-form-field appearance="outline" class="contact-field">
 				   <mat-label>{{ 'contact.Message' | translate }}</mat-label>
 				   <textarea matInput rows="4" required [(ngModel)]="message" name="message" #messageModel="ngModel"></textarea>
-				   <mat-error *ngIf="messageModel.invalid && messageModel.touched"></mat-error>
+				   <mat-error *ngIf="messageModel.invalid && (messageModel.dirty || messageModel.touched)" style="color: #ff0000 !important;">
+					   <span *ngIf="messageModel.errors?.['required']" style="color: #ff0000 !important;">Message is required</span>
+				   </mat-error>
 			   </mat-form-field>
-			<button mat-raised-button color="accent" (click)="sendContact()">{{ 'contact.Send' | translate }}</button>
-			<div *ngIf="contactMessage" [ngClass]="contactMessageType" style="margin-top:8px;">
-				{{ contactMessage }}
-			</div>
+			<button mat-raised-button color="accent" (click)="submitForm()" [disabled]="isLoading">
+				<span *ngIf="!isLoading">{{ 'contact.Send' | translate }}</span>
+				<mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate" color="primary" style="display: inline-block;"></mat-progress-spinner>
+			</button>
+			</form>
 		</div>
 	</div>
 </div>
