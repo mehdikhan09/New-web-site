@@ -1,0 +1,470 @@
+<div class="dashboard-container">
+  <!-- Top Navigation Bar -->
+  <div class="dashboard-topbar">
+    <div class="topbar-left">
+      <div class="company-brand">
+        <mat-icon class="brand-icon">cleaning_services</mat-icon>
+        <span class="company-name">Noj Cleaning</span>
+      </div>
+      <div class="separator"></div>
+      <h2 class="page-title">{{ getPageTitle() | translate }}</h2>
+    </div>
+    <div class="topbar-right">
+      <button mat-icon-button class="notification-btn">
+        <mat-icon matBadge="3" matBadgeColor="warn">notifications</mat-icon>
+      </button>
+      <div class="user-profile">
+        <mat-icon>person</mat-icon>
+        <span>Admin</span>
+      </div>
+      <button mat-icon-button (click)="logout()" class="logout-btn">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Layout -->
+  <div class="dashboard-main-layout">
+    <!-- Left Side Navigation -->
+    <div class="dashboard-sidebar">
+      
+      
+      <nav class="sidebar-nav">
+        <button mat-button class="nav-item" [class.active]="activeTab === 'overview'" (click)="activeTab = 'overview'">
+          <mat-icon>dashboard</mat-icon>
+          <span>{{ 'Overview' | translate }}</span>
+        </button>
+        <button mat-button class="nav-item" [class.active]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ 'Bookings' | translate }}</span>
+        </button>
+        <button mat-button class="nav-item" [class.active]="activeTab === 'customers'" (click)="activeTab = 'customers'">
+          <mat-icon>people</mat-icon>
+          <span>{{ 'Customers' | translate }}</span>
+        </button>
+        <button mat-button class="nav-item" [class.active]="activeTab === 'analytics'" (click)="activeTab = 'analytics'">
+          <mat-icon>analytics</mat-icon>
+          <span>{{ 'Analytics' | translate }}</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Main Content Area -->
+  <div class="dashboard-content">
+    <!-- Overview Tab Content -->
+    <div *ngIf="activeTab === 'overview'" class="tab-content">
+      <!-- Welcome Section -->
+      <div class="welcome-section">
+        <h3>{{ 'Welcome back, Admin!' | translate }}</h3>
+        <p>{{ 'Here\'s what\'s happening with Noj Cleaning today' | translate }}</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card primary">
+          <div class="stat-icon">
+            <mat-icon>calendar_today</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ totalBookings }}</div>
+            <div class="stat-label">{{ 'Total Bookings' | translate }}</div>
+            <div class="stat-change positive">+12% from last month</div>
+          </div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="stat-icon">
+            <mat-icon>attach_money</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ revenue | currency:'SEK':'symbol':'1.0-0' }}</div>
+            <div class="stat-label">{{ 'Monthly Revenue' | translate }}</div>
+            <div class="stat-change positive">+8% from last month</div>
+          </div>
+        </div>
+
+        <div class="stat-card warning">
+          <div class="stat-icon">
+            <mat-icon>pending</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ activeServices }}</div>
+            <div class="stat-label">{{ 'Pending Services' | translate }}</div>
+            <div class="stat-change neutral">2 urgent</div>
+          </div>
+        </div>
+
+        <div class="stat-card info">
+          <div class="stat-icon">
+            <mat-icon>star</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">4.8</div>
+            <div class="stat-label">{{ 'Average Rating' | translate }}</div>
+            <div class="stat-change positive">+0.3 this month</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Overview Section -->
+      <div class="today-overview">
+        <mat-card class="today-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>today</mat-icon>
+              {{ 'Today\'s Schedule' | translate }}
+            </mat-card-title>
+            <mat-card-subtitle>{{ currentDate | date:'fullDate' }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="today-stats">
+              <div class="today-stat">
+                <div class="today-number">8</div>
+                <div class="today-label">{{ 'Scheduled Cleanings' | translate }}</div>
+              </div>
+              <div class="today-stat">
+                <div class="today-number">3</div>
+                <div class="today-label">{{ 'In Progress' | translate }}</div>
+              </div>
+              <div class="today-stat">
+                <div class="today-number">5</div>
+                <div class="today-label">{{ 'Completed' | translate }}</div>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <mat-progress-bar mode="determinate" value="62"></mat-progress-bar>
+              <span class="progress-text">62% {{ 'Completed Today' | translate }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Quick Insights -->
+        <mat-card class="insights-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>insights</mat-icon>
+              {{ 'Quick Insights' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="insight-list">
+              <div class="insight-item">
+                <mat-icon class="insight-icon trending-up">trending_up</mat-icon>
+                <div class="insight-content">
+                  <div class="insight-title">{{ 'Peak Season Alert' | translate }}</div>
+                  <div class="insight-desc">{{ 'Bookings increased by 25% this week' | translate }}</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <mat-icon class="insight-icon star">star</mat-icon>
+                <div class="insight-content">
+                  <div class="insight-title">{{ 'High Satisfaction' | translate }}</div>
+                  <div class="insight-desc">{{ '98% customer satisfaction this month' | translate }}</div>
+                </div>
+              </div>
+              <div class="insight-item">
+                <mat-icon class="insight-icon schedule">schedule</mat-icon>
+                <div class="insight-content">
+                  <div class="insight-title">{{ 'Efficiency Boost' | translate }}</div>
+                  <div class="insight-desc">{{ 'Average cleaning time reduced by 15%' | translate }}</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Recent Bookings -->
+        <mat-card class="content-card recent-bookings-card">
+          <mat-card-header>
+            <div class="card-header">
+              <mat-card-title>
+                <mat-icon>history</mat-icon>
+                {{ 'Recent Bookings' | translate }}
+              </mat-card-title>
+              <button mat-button color="primary" (click)="viewBookings()">
+                {{ 'View All' | translate }}
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="booking-list">
+              <div class="booking-item" *ngFor="let booking of recentBookings">
+                <div class="booking-avatar">
+                  <mat-icon>{{ getServiceIcon(booking.service) }}</mat-icon>
+                </div>
+                <div class="booking-details">
+                  <div class="booking-name">{{ booking.customerName }}</div>
+                  <div class="booking-service">{{ booking.service }}</div>
+                  <div class="booking-time">{{ booking.date | date:'MMM d, y' }} at {{ booking.time }}</div>
+                </div>
+                <div class="booking-status">
+                  <span class="status-badge" [ngClass]="booking.status">
+                    {{ booking.status | titlecase }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Recent Activities -->
+        <mat-card class="content-card activities-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>notifications_active</mat-icon>
+              {{ 'Recent Activities' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon new-booking">
+                  <mat-icon>add_circle</mat-icon>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text">{{ 'New booking from Anna Svensson' | translate }}</div>
+                  <div class="activity-time">{{ '5 minutes ago' | translate }}</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon completed">
+                  <mat-icon>check_circle</mat-icon>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text">{{ 'Home cleaning completed for Erik Johansson' | translate }}</div>
+                  <div class="activity-time">{{ '1 hour ago' | translate }}</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon payment">
+                  <mat-icon>payment</mat-icon>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text">{{ 'Payment received - 1,200 SEK' | translate }}</div>
+                  <div class="activity-time">{{ '2 hours ago' | translate }}</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon review">
+                  <mat-icon>star</mat-icon>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text">{{ 'New 5-star review received' | translate }}</div>
+                  <div class="activity-time">{{ '3 hours ago' | translate }}</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Performance Summary -->
+      <div class="performance-summary">
+        <mat-card class="performance-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>assessment</mat-icon>
+              {{ 'This Month\'s Performance' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="performance-metrics">
+              <div class="metric">
+                <div class="metric-header">
+                  <span class="metric-title">{{ 'Service Types' | translate }}</span>
+                  <mat-icon>cleaning_services</mat-icon>
+                </div>
+                <div class="metric-breakdown">
+                  <div class="breakdown-item">
+                    <span class="service-name">{{ 'Home Cleaning' | translate }}</span>
+                    <span class="service-count">45 {{ 'bookings' | translate }}</span>
+                  </div>
+                  <div class="breakdown-item">
+                    <span class="service-name">{{ 'Office Cleaning' | translate }}</span>
+                    <span class="service-count">28 {{ 'bookings' | translate }}</span>
+                  </div>
+                  <div class="breakdown-item">
+                    <span class="service-name">{{ 'Move-in/out Cleaning' | translate }}</span>
+                    <span class="service-count">12 {{ 'bookings' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-header">
+                  <span class="metric-title">{{ 'Revenue Breakdown' | translate }}</span>
+                  <mat-icon>pie_chart</mat-icon>
+                </div>
+                <div class="metric-breakdown">
+                  <div class="breakdown-item">
+                    <span class="service-name">{{ 'Regular Services' | translate }}</span>
+                    <span class="service-count">65,400 SEK</span>
+                  </div>
+                  <div class="breakdown-item">
+                    <span class="service-name">{{ 'Premium Services' | translate }}</span>
+                    <span class="service-count">28,600 SEK</span>
+                  </div>
+                  <div class="breakdown-item">
+                    <span class="service-name">{{ 'One-time Services' | translate }}</span>
+                    <span class="service-count">18,200 SEK</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Quick Actions Panel -->
+      <mat-card class="quick-actions-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>flash_on</mat-icon>
+            {{ 'Quick Actions' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="action-grid">
+            <button mat-raised-button class="action-btn new-booking" (click)="createNewBooking()">
+              <mat-icon>add_circle</mat-icon>
+              <div class="action-text">{{ 'New Booking' | translate }}</div>
+            </button>
+            <button mat-raised-button class="action-btn view-messages" (click)="viewMessages()">
+              <mat-icon>message</mat-icon>
+              <div class="action-text">{{ 'Messages' | translate }}</div>
+            </button>
+            <button mat-raised-button class="action-btn generate-report" (click)="generateReports()">
+              <mat-icon>assessment</mat-icon>
+              <div class="action-text">{{ 'Generate Report' | translate }}</div>
+            </button>
+            <button mat-raised-button class="action-btn settings" (click)="openSettings()">
+              <mat-icon>settings</mat-icon>
+              <div class="action-text">{{ 'Settings' | translate }}</div>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Other Tab Contents -->
+    <div *ngIf="activeTab === 'bookings'" class="tab-content">
+      <mat-card class="full-card">
+        <mat-card-header>
+          <div class="calendar-header">
+            <mat-card-title>{{ 'All Bookings' | translate }}</mat-card-title>
+            <div class="calendar-controls">
+              <button mat-icon-button (click)="previousMonth()">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+              <span class="current-month">{{ currentMonth | date:'MMMM yyyy' }}</span>
+              <button mat-icon-button (click)="nextMonth()">
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </div>
+            <div class="calendar-actions">
+              <button mat-raised-button color="primary" (click)="createNewBooking()">
+                <mat-icon>add</mat-icon>
+                {{ 'New Booking' | translate }}
+              </button>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- Calendar Grid -->
+          <div class="calendar-container">
+            <!-- Calendar Header -->
+            <div class="calendar-grid-header">
+              <div class="calendar-day-header">{{ 'Mon' | translate }}</div>
+              <div class="calendar-day-header">{{ 'Tue' | translate }}</div>
+              <div class="calendar-day-header">{{ 'Wed' | translate }}</div>
+              <div class="calendar-day-header">{{ 'Thu' | translate }}</div>
+              <div class="calendar-day-header">{{ 'Fri' | translate }}</div>
+              <div class="calendar-day-header">{{ 'Sat' | translate }}</div>
+              <div class="calendar-day-header">{{ 'Sun' | translate }}</div>
+            </div>
+            
+            <!-- Calendar Days -->
+            <div class="calendar-grid">
+              <div *ngFor="let day of calendarDays" 
+                   class="calendar-day" 
+                   [class.today]="isToday(day.date)"
+                   [class.other-month]="!day.currentMonth"
+                   [class.has-bookings]="day.bookings.length > 0">
+                <div class="day-number">{{ day.date.getDate() }}</div>
+                <div class="day-bookings" *ngIf="day.bookings.length > 0">
+                  <div *ngFor="let booking of day.bookings | slice:0:2" 
+                       class="booking-event"
+                       [class]="'booking-' + booking.status">
+                    <div class="booking-time">{{ booking.time }}</div>
+                    <div class="booking-customer">{{ booking.customerName }}</div>
+                    <div class="booking-service-mini">{{ booking.service }}</div>
+                  </div>
+                  <div *ngIf="day.bookings.length > 2" class="more-bookings">
+                    +{{ day.bookings.length - 2 }} more
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Legend -->
+          <div class="booking-legend">
+            <div class="legend-title">{{ 'Status Legend' | translate }}:</div>
+            <div class="legend-items">
+              <div class="legend-item">
+                <span class="legend-color booking-confirmed"></span>
+                <span>{{ 'Confirmed' | translate }}</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color booking-pending"></span>
+                <span>{{ 'Pending' | translate }}</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color booking-completed"></span>
+                <span>{{ 'Completed' | translate }}</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color booking-cancelled"></span>
+                <span>{{ 'Cancelled' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="activeTab === 'customers'" class="tab-content">
+      <mat-card class="full-card">
+        <mat-card-header>
+          <mat-card-title>{{ 'Customer Management' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="coming-soon">
+            <mat-icon>people_outline</mat-icon>
+            <h3>{{ 'Customer Database' | translate }}</h3>
+            <p>{{ 'Customer management tools coming soon!' | translate }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="activeTab === 'analytics'" class="tab-content">
+      <mat-card class="full-card">
+        <mat-card-header>
+          <mat-card-title>{{ 'Analytics & Reports' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="coming-soon">
+            <mat-icon>analytics</mat-icon>
+            <h3>{{ 'Advanced Analytics' | translate }}</h3>
+            <p>{{ 'Detailed analytics dashboard coming soon!' | translate }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  </div>
+</div>

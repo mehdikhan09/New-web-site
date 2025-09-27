@@ -46,11 +46,16 @@ export class Login {
 
     // Simulate login process
     setTimeout(() => {
-      // Replace this with your actual login logic
-      if (this.username === 'admin' && this.password === 'password') {
+      // Check credentials: Username "Admin" and Password "123@Admin"
+      if (this.username === 'Admin' && this.password === '123@Admin') {
         console.log('Login successful');
-        // Navigate to dashboard or home page
-        this.router.navigate(['/home']);
+        
+        // Store login state
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', this.username);
+        
+        // Navigate to dashboard page
+        this.router.navigate(['/dashboard']);
       } else {
         this.errorMessage = 'Invalid username or password';
       }

@@ -42,6 +42,12 @@ import { MatButtonModule } from '@angular/material/button';
 export class App implements OnInit, AfterViewInit {
   public showAdBox: boolean = true;
   isLoginPage = false;
+  isDashboardPage = false;
+
+  // Getter to determine if header/footer should be hidden
+  get shouldHideNavigation(): boolean {
+    return this.isLoginPage || this.isDashboardPage;
+  }
 
   ngOnInit() {
     this.showAdBox = true; // Ensure ad box is visible on page load
@@ -52,6 +58,7 @@ export class App implements OnInit, AfterViewInit {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.isLoginPage = event.url === '/login';
+        this.isDashboardPage = event.url === '/dashboard';
       });
   }
 

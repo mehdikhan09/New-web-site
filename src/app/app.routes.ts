@@ -13,6 +13,8 @@ import { Generalcleaning } from '../Components/generalcleaning/generalcleaning';
 import { Windowcleaning } from '../Components/windowcleaning/windowcleaning';
 import { Gallery } from '../Components/gallery/gallery';
 import { Login } from '../Components/login/login';
+import { Dashboard } from '../Components/dashboard/dashboard';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
@@ -27,6 +29,7 @@ export const routes: Routes = [
   { path: 'contact', component: ContactUs },
   { path: 'booking', component: Booking },
   { path: 'login', component: Login },
+  { path: 'dashboard', component: Dashboard, canActivate: [AuthGuard] },
   { path: 'photos', component: Error },
   { path: 'HomeCleaning', component: Homecleaning },
   { path: 'MovingCleaning', component: MovingCleaning },
