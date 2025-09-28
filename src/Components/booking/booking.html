@@ -16,10 +16,10 @@
 			</div>
 		</div>
         <div class="booking-left">
-			
+			<form #bookingForm="ngForm" novalidate>
 			<mat-form-field appearance="outline" class="booking-field">
 				<mat-label>{{ 'bookingform.cleaningtype0' | translate }}</mat-label>
-				<mat-select [(ngModel)]="serviceType" name="serviceType" required>
+				<mat-select [(ngModel)]="serviceType" name="serviceType" required #serviceTypeModel="ngModel">
 					<mat-option value="Campus">{{ 'bookingform.cleaningtype1' | translate }}</mat-option>
                     <mat-option value="moving">{{ 'bookingform.cleaningtype2' | translate }}</mat-option>
 					<mat-option value="window">{{ 'bookingform.cleaningtype3' | translate }}</mat-option>
@@ -30,17 +30,22 @@
 					<mat-option value="floorscrubbing">{{ 'bookingform.cleaningtype8' | translate }}</mat-option>
 					<mat-option value="construction">{{ 'bookingform.cleaningtype9' | translate }}</mat-option>
 				</mat-select>
-				<mat-error *ngIf="!serviceType">This value is required</mat-error>
+				<mat-error *ngIf="serviceTypeModel.invalid && (serviceTypeModel.dirty || serviceTypeModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+					<span *ngIf="serviceTypeModel.errors?.['required']" style="color: #ff0000 !important;">Service type is required</span>
+				</mat-error>
 			</mat-form-field>
 
             @if (serviceType == 'Campus') {
                 <mat-form-field appearance="outline" class="booking-field">
                     <mat-label>{{ 'bookingform.cleaningcampustype' | translate }}</mat-label>
-                    <mat-select [(ngModel)]="campusType" name="campusType" required (selectionChange)="onCampusTypeChange($event)">
+                    <mat-select [(ngModel)]="campusType" name="campusType" required #campusTypeModel="ngModel" (selectionChange)="onCampusTypeChange($event)">
                         <mat-option value="home">{{ 'price.movingcleaning.Service1' | translate }}</mat-option>
                         <mat-option value="general">{{ 'price.movingcleaning.Service2' | translate }}</mat-option>
                         <mat-option value="moving1">{{ 'price.movingcleaning.Service3' | translate }}</mat-option>
                     </mat-select>
+                    <mat-error *ngIf="campusTypeModel.invalid && (campusTypeModel.dirty || campusTypeModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                        <span *ngIf="campusTypeModel.errors?.['required']" style="color: #ff0000 !important;">Campus type is required</span>
+                    </mat-error>
                 </mat-form-field>
             }
                     
@@ -49,26 +54,31 @@
             @if (serviceType == 'window') {
                 <mat-form-field appearance="outline" class="booking-field">
                     <mat-label>{{ 'bookingform.cleaningcampustype2' | translate }}</mat-label>
-                        <mat-select [(ngModel)]="windowType" name="windowType" required (selectionChange)="onWindowTypeChange($event)">
+                        <mat-select [(ngModel)]="windowType" name="windowType" required #windowTypeModel="ngModel" (selectionChange)="onWindowTypeChange($event)">
                         <mat-option value="window1">{{ 'bookingform.cleaningcampustype3' | translate }}</mat-option>
                         <mat-option value="window2">{{ 'bookingform.cleaningcampustype4' | translate }}</mat-option>
                         <mat-option value="window3">{{ 'bookingform.cleaningcampustype5' | translate }}</mat-option>
                     </mat-select>
-                    <mat-error *ngIf="!windowType">This value is required</mat-error>
+                    <mat-error *ngIf="windowTypeModel.invalid && (windowTypeModel.dirty || windowTypeModel.touched)" style="color: #ff0000 !important;">
+                        <span *ngIf="windowTypeModel.errors?.['required']" style="color: #ff0000 !important;">Window type is required</span>
+                    </mat-error>
                 </mat-form-field>
                 
             }
 			@if (serviceType == 'window') {
                 <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.cleaningcampustype6' | translate }}</mat-label>
-                <input matInput type="text" [(ngModel)]="windowno" name="windowno" required />
+                <input matInput type="text" [(ngModel)]="windowno" name="windowno" required #windownoModel="ngModel" />
+                <mat-error *ngIf="windownoModel.invalid && (windownoModel.dirty || windownoModel.touched)" style="color: #ff0000 !important;">
+                    <span *ngIf="windownoModel.errors?.['required']" style="color: #ff0000 !important;">Number of windows is required</span>
+                </mat-error>
             </mat-form-field>
                 
             }
             @if (serviceType == 'moving') {
                 <mat-form-field appearance="outline" class="booking-field">
                     <mat-label>{{ 'bookingform.cleaningcampustype7' | translate }}</mat-label>
-                    <mat-select [(ngModel)]="movingType" name="movingType" required (selectionChange)="onMovingTypeChange($event)">
+                    <mat-select [(ngModel)]="movingType" name="movingType" required #movingTypeModel="ngModel" (selectionChange)="onMovingTypeChange($event)">
                         <mat-option value="Ser1">{{ 'price.movingcleaning.Service4' | translate }}</mat-option>
                         <mat-option value="Ser2">{{ 'price.movingcleaning.Service5' | translate }}</mat-option>
                         <mat-option value="Ser3">{{ 'price.movingcleaning.Service6' | translate }}</mat-option>
@@ -88,7 +98,9 @@
 						<mat-option value="Ser17">{{ 'price.movingcleaning.Service20' | translate }}</mat-option>
 						
                     </mat-select>
-                    <mat-error *ngIf="!movingType">This value is required</mat-error>
+                    <mat-error *ngIf="movingTypeModel.invalid && (movingTypeModel.dirty || movingTypeModel.touched)" style="color: #ff0000 !important;">
+                        <span *ngIf="movingTypeModel.errors?.['required']" style="color: #ff0000 !important;">Moving service type is required</span>
+                    </mat-error>
                 </mat-form-field>
             }
 			 
@@ -120,35 +132,42 @@
 
  			<mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Selectdate' | translate }}</mat-label>
-                <input matInput [matDatepicker]="mainPicker" [(ngModel)]="mainDate" name="mainDate" required [min]="today" />
+                <input matInput [matDatepicker]="mainPicker" [(ngModel)]="mainDate" name="mainDate" required #mainDateModel="ngModel" [min]="today" />
                 <mat-datepicker-toggle matSuffix [for]="mainPicker"></mat-datepicker-toggle>
                 <mat-datepicker #mainPicker></mat-datepicker>
+                <mat-error *ngIf="mainDateModel.invalid && (mainDateModel.dirty || mainDateModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                    <span *ngIf="mainDateModel.errors?.['required']" style="color: #ff0000 !important;">Date is required</span>
+                </mat-error>
             </mat-form-field>
 
             @if (serviceType == 'Campus') {
                         <mat-form-field appearance="outline" class="booking-field">
                             <mat-label>{{ 'bookingform.Selecttime' | translate }}</mat-label>
-                            <mat-select [(ngModel)]="selectedTime" name="selectedTime" required>
+                            <mat-select [(ngModel)]="selectedTime" name="selectedTime" required #selectedTimeModel="ngModel">
                                 <mat-option value="08:00">08:00</mat-option>
                                 <mat-option value="10:00">13:00</mat-option>
                             </mat-select>
-                            <mat-error *ngIf="!selectedTime">Time slot is required</mat-error>
+                            <mat-error *ngIf="selectedTimeModel.invalid && (selectedTimeModel.dirty || selectedTimeModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                                <span *ngIf="selectedTimeModel.errors?.['required']" style="color: #ff0000 !important;">Time slot is required</span>
+                            </mat-error>
                         </mat-form-field>
                     }
 
 					@if (serviceType == 'moving') {
                         <mat-form-field appearance="outline" class="booking-field">
                             <mat-label>{{ 'bookingform.Selecttime' | translate }}</mat-label>
-                            <mat-select [(ngModel)]="selectedTime" name="selectedTime" required>
+                            <mat-select [(ngModel)]="selectedTime" name="selectedTime" required #selectedTimeModel="ngModel">
                                 <mat-option value="08:00">08:00</mat-option>
                             </mat-select>
-                            <mat-error *ngIf="!selectedTime">Time slot is required</mat-error>
+                            <mat-error *ngIf="selectedTimeModel.invalid && (selectedTimeModel.dirty || selectedTimeModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                                <span *ngIf="selectedTimeModel.errors?.['required']" style="color: #ff0000 !important;">Time slot is required</span>
+                            </mat-error>
                         </mat-form-field>
                     }
 					@if(serviceType == 'window' || serviceType == 'home' || serviceType == 'office' || serviceType == 'other' || serviceType == 'homevisit' || serviceType == 'floorscrubbing' || serviceType == 'construction') {
                 <mat-form-field appearance="outline" class="booking-field">
                     <mat-label>{{ 'bookingform.Selecttime' | translate }}</mat-label>
-                    <mat-select [(ngModel)]="selectedTime" name="selectedTime" required>
+                    <mat-select [(ngModel)]="selectedTime" name="selectedTime" required #selectedTimeModel="ngModel">
                         <mat-option value="08:00">08:00</mat-option>
                         <mat-option value="10:00">09:00</mat-option>
                         <mat-option value="12:00">10:00</mat-option>
@@ -159,7 +178,9 @@
                         <mat-option value="16:00">15:00</mat-option>
                         <mat-option value="16:00">16:00</mat-option>
                     </mat-select>
-                    <mat-error *ngIf="!selectedTime">Time slot is required</mat-error>
+                    <mat-error *ngIf="selectedTimeModel.invalid && (selectedTimeModel.dirty || selectedTimeModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                        <span *ngIf="selectedTimeModel.errors?.['required']" style="color: #ff0000 !important;">Time slot is required</span>
+                    </mat-error>
                 </mat-form-field>
             
 					}
@@ -169,23 +190,39 @@
 
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Name' | translate }}</mat-label>
-                <input matInput type="text" [(ngModel)]="name" name="name" required />
+                <input matInput type="text" [(ngModel)]="name" name="name" required #nameModel="ngModel" />
+                <mat-error *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                    <span *ngIf="nameModel.errors?.['required']" style="color: #ff0000 !important;">Name is required</span>
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Email' | translate }}</mat-label>
-                <input matInput type="email" [(ngModel)]="email" name="email" required />
+                <input matInput type="email" [(ngModel)]="email" name="email" required email #emailModel="ngModel" />
+                <mat-error *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                    <span *ngIf="emailModel.errors?.['required']" style="color: #ff0000 !important;">Email is required</span>
+                    <span *ngIf="emailModel.errors?.['email']" style="color: #ff0000 !important;">Please enter a valid email address</span>
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Phone' | translate }}</mat-label>
-                <input matInput type="tel" [(ngModel)]="phone" name="phone" required />
+                <input matInput type="tel" [(ngModel)]="phone" name="phone" required #phoneModel="ngModel" />
+                <mat-error *ngIf="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                    <span *ngIf="phoneModel.errors?.['required']" style="color: #ff0000 !important;">Phone number is required</span>
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.personalnumber' | translate }}</mat-label>
-                <input matInput type="text" [(ngModel)]="personalid" name="personalid" required />
+                <input matInput type="text" [(ngModel)]="personalid" name="personalid" required #personalidModel="ngModel" />
+                <mat-error *ngIf="personalidModel.invalid && (personalidModel.dirty || personalidModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                    <span *ngIf="personalidModel.errors?.['required']" style="color: #ff0000 !important;">Personal ID is required</span>
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Address' | translate }}</mat-label>
-                <input matInput type="text" [(ngModel)]="address" name="address" required />
+                <input matInput type="text" [(ngModel)]="address" name="address" required #addressModel="ngModel" />
+                <mat-error *ngIf="addressModel.invalid && (addressModel.dirty || addressModel.touched || formSubmitted)" style="color: #ff0000 !important;">
+                    <span *ngIf="addressModel.errors?.['required']" style="color: #ff0000 !important;">Address is required</span>
+                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Apartment' | translate }}</mat-label>
@@ -202,7 +239,7 @@
 
             <mat-form-field appearance="outline" class="booking-field">
                 <mat-label>{{ 'bookingform.Message' | translate }}</mat-label>
-                <textarea matInput rows="4" [(ngModel)]="message" name="message"></textarea>
+                <textarea matInput rows="4" [(ngModel)]="message" name="message" #messageModel="ngModel"></textarea>
             </mat-form-field>
 
             <button mat-raised-button class="booking-submit modern-btn" (click)="submitBooking()" [disabled]="isLoading">
@@ -210,6 +247,7 @@
                 <span *ngIf="!isLoading">{{ 'PlaceOrder' | translate }}</span>
                 <mat-progress-spinner *ngIf="isLoading" diameter="22" mode="indeterminate" color="primary" style="vertical-align: middle; margin-left: 8px;" strokeWidth="3"></mat-progress-spinner>
             </button>
+            </form>
         </div>
 	</div>
 </div><br/>
