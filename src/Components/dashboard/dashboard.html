@@ -68,18 +68,18 @@
           <div class="stat-content">
             <div class="stat-number">{{ totalBookings }}</div>
             <div class="stat-label">{{ 'Total Bookings' | translate }}</div>
-            <div class="stat-change positive">+12% from last month</div>
+            
           </div>
         </div>
 
         <div class="stat-card success">
           <div class="stat-icon">
-            <mat-icon>attach_money</mat-icon>
+            <mat-icon>event_note</mat-icon>
           </div>
           <div class="stat-content">
-            <div class="stat-number">{{ revenue | currency:'SEK':'symbol':'1.0-0' }}</div>
-            <div class="stat-label">{{ 'Monthly Revenue' | translate }}</div>
-            <div class="stat-change positive">+8% from last month</div>
+            <div class="stat-number">{{ newBookingCount }}</div>
+            <div class="stat-label">{{ 'New Booking Count' | translate }}</div>
+            
           </div>
         </div>
 
@@ -90,7 +90,7 @@
           <div class="stat-content">
             <div class="stat-number">{{ activeServices }}</div>
             <div class="stat-label">{{ 'Pending Services' | translate }}</div>
-            <div class="stat-change neutral">2 urgent</div>
+            
           </div>
         </div>
 
@@ -101,7 +101,7 @@
           <div class="stat-content">
             <div class="stat-number">4.8</div>
             <div class="stat-label">{{ 'Average Rating' | translate }}</div>
-            <div class="stat-change positive">+0.3 this month</div>
+           
           </div>
         </div>
       </div>
@@ -110,30 +110,71 @@
       <div class="today-overview">
         <mat-card class="today-card">
           <mat-card-header>
-            <mat-card-title>
-              <mat-icon>today</mat-icon>
-              {{ 'Today\'s Schedule' | translate }}
-            </mat-card-title>
-            <mat-card-subtitle>{{ currentDate | date:'fullDate' }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="today-stats">
-              <div class="today-stat">
-                <div class="today-number">8</div>
-                <div class="today-label">{{ 'Scheduled Cleanings' | translate }}</div>
+            <div class="schedule-header">
+              <div class="title-section">
+                <mat-card-title>
+                  <mat-icon>calendar_today</mat-icon>
+                  {{ 'Daily Cleanings Schedule' | translate }}
+                </mat-card-title>
+                <mat-card-subtitle>{{ selectedDate | date:'fullDate' }}</mat-card-subtitle>
               </div>
-              <div class="today-stat">
-                <div class="today-number">3</div>
-                <div class="today-label">{{ 'In Progress' | translate }}</div>
-              </div>
-              <div class="today-stat">
-                <div class="today-number">5</div>
-                <div class="today-label">{{ 'Completed' | translate }}</div>
+              <div class="date-selector">
+                <mat-form-field appearance="outline" class="date-field">
+                  <mat-label>{{ 'Select Date' | translate }}</mat-label>
+                  <input matInput [matDatepicker]="schedulePicker" [(ngModel)]="selectedDate" name="selectedDate" (dateChange)="onDateChange()" [min]="minDate" [max]="maxDate" />
+                  <mat-datepicker-toggle matSuffix [for]="schedulePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #schedulePicker></mat-datepicker>
+                </mat-form-field>
               </div>
             </div>
-            <div class="progress-bar">
-              <mat-progress-bar mode="determinate" value="62"></mat-progress-bar>
-              <span class="progress-text">62% {{ 'Completed Today' | translate }}</span>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="selected-date-stats">
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().total }}</div>
+                <div class="stat-label">{{ 'Total Cleanings' | translate }}</div>
+              </div>
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().completed }}</div>
+                <div class="stat-label">{{ 'Completed' | translate }}</div>
+              </div>
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().ongoing }}</div>
+                <div class="stat-label">{{ 'In Progress' | translate }}</div>
+              </div>
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().scheduled }}</div>
+                <div class="stat-label">{{ 'Scheduled' | translate }}</div>
+              </div>
+            </div>
+            
+            <!-- Daily Cleaning List -->
+            <div class="daily-cleaning-list" *ngIf="getDailyCleanings().length > 0">
+              <h4 class="cleaning-list-title">{{ 'Cleaning Schedule for' | translate }} {{ selectedDate | date:'MMM d, y' }}</h4>
+              <div class="cleaning-item" *ngFor="let cleaning of getDailyCleanings()">
+                <div class="cleaning-time-badge" [ngClass]="cleaning.status">{{ cleaning.time }}</div>
+                <div class="cleaning-info">
+                  <div class="customer-name">{{ cleaning.customerName }}</div>
+                  <div class="service-type">{{ cleaning.serviceType }}</div>
+                  <div class="cleaning-address">{{ cleaning.address }}</div>
+                </div>
+                <div class="status-indicator" [ngClass]="cleaning.status">
+                  <span class="status-text">{{ cleaning.status | titlecase }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- No cleanings message -->
+            <div class="no-cleanings" *ngIf="getDailyCleanings().length === 0">
+              <mat-icon>event_busy</mat-icon>
+              <h4>{{ 'No cleanings scheduled' | translate }}</h4>
+              <p>{{ 'No cleaning services are scheduled for this date.' | translate }}</p>
+            </div>
+            
+            <div class="daily-progress">
+              <mat-progress-bar mode="determinate" [value]="getDailyProgress()"></mat-progress-bar>
+              <span class="progress-text">{{ getDailyProgress() }}% {{ 'Completed' | translate }}</span>
             </div>
           </mat-card-content>
         </mat-card>
@@ -141,34 +182,71 @@
         <!-- Quick Insights -->
         <mat-card class="insights-card">
           <mat-card-header>
-            <mat-card-title>
-              <mat-icon>insights</mat-icon>
-              {{ 'Quick Insights' | translate }}
-            </mat-card-title>
+            <div class="schedule-header">
+              <div class="title-section">
+                <mat-card-title>
+                  <mat-icon>calendar_today</mat-icon>
+                  {{ 'Daily inspection Schedule' | translate }}
+                </mat-card-title>
+                <mat-card-subtitle>{{ selectedDate | date:'fullDate' }}</mat-card-subtitle>
+              </div>
+              <div class="date-selector">
+                <mat-form-field appearance="outline" class="date-field">
+                  <mat-label>{{ 'Select Date' | translate }}</mat-label>
+                  <input matInput [matDatepicker]="schedulePicker" [(ngModel)]="selectedDate" name="selectedDate" (dateChange)="onDateChange()" [min]="minDate" [max]="maxDate" />
+                  <mat-datepicker-toggle matSuffix [for]="schedulePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #schedulePicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
           </mat-card-header>
+          
           <mat-card-content>
-            <div class="insight-list">
-              <div class="insight-item">
-                <mat-icon class="insight-icon trending-up">trending_up</mat-icon>
-                <div class="insight-content">
-                  <div class="insight-title">{{ 'Peak Season Alert' | translate }}</div>
-                  <div class="insight-desc">{{ 'Bookings increased by 25% this week' | translate }}</div>
+            <div class="selected-date-stats">
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().total }}</div>
+                <div class="stat-label">{{ 'Total Cleanings' | translate }}</div>
+              </div>
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().completed }}</div>
+                <div class="stat-label">{{ 'Completed' | translate }}</div>
+              </div>
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().ongoing }}</div>
+                <div class="stat-label">{{ 'In Progress' | translate }}</div>
+              </div>
+              <div class="date-stat">
+                <div class="stat-number">{{ getDailyStats().scheduled }}</div>
+                <div class="stat-label">{{ 'Scheduled' | translate }}</div>
+              </div>
+            </div>
+            
+            <!-- Daily Cleaning List -->
+            <div class="daily-cleaning-list" *ngIf="getDailyCleanings().length > 0">
+              <h4 class="cleaning-list-title">{{ 'Cleaning Schedule for' | translate }} {{ selectedDate | date:'MMM d, y' }}</h4>
+              <div class="cleaning-item" *ngFor="let cleaning of getDailyCleanings()">
+                <div class="cleaning-time-badge" [ngClass]="cleaning.status">{{ cleaning.time }}</div>
+                <div class="cleaning-info">
+                  <div class="customer-name">{{ cleaning.customerName }}</div>
+                  <div class="service-type">{{ cleaning.serviceType }}</div>
+                  <div class="cleaning-address">{{ cleaning.address }}</div>
+                </div>
+                <div class="status-indicator" [ngClass]="cleaning.status">
+                  <span class="status-text">{{ cleaning.status | titlecase }}</span>
                 </div>
               </div>
-              <div class="insight-item">
-                <mat-icon class="insight-icon star">star</mat-icon>
-                <div class="insight-content">
-                  <div class="insight-title">{{ 'High Satisfaction' | translate }}</div>
-                  <div class="insight-desc">{{ '98% customer satisfaction this month' | translate }}</div>
-                </div>
-              </div>
-              <div class="insight-item">
-                <mat-icon class="insight-icon schedule">schedule</mat-icon>
-                <div class="insight-content">
-                  <div class="insight-title">{{ 'Efficiency Boost' | translate }}</div>
-                  <div class="insight-desc">{{ 'Average cleaning time reduced by 15%' | translate }}</div>
-                </div>
-              </div>
+            </div>
+            
+            <!-- No cleanings message -->
+            <div class="no-cleanings" *ngIf="getDailyCleanings().length === 0">
+              <mat-icon>event_busy</mat-icon>
+              <h4>{{ 'No cleanings scheduled' | translate }}</h4>
+              <p>{{ 'No cleaning services are scheduled for this date.' | translate }}</p>
+            </div>
+            
+            <div class="daily-progress">
+              <mat-progress-bar mode="determinate" [value]="getDailyProgress()"></mat-progress-bar>
+              <span class="progress-text">{{ getDailyProgress() }}% {{ 'Completed' | translate }}</span>
             </div>
           </mat-card-content>
         </mat-card>

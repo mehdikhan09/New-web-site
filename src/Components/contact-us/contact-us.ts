@@ -47,7 +47,6 @@ export class ContactMessageDialog {
     CommonModule,
     RouterModule,
     FormsModule,
-    ContactMessageDialog,
     MatProgressSpinnerModule
   ],
   templateUrl: './contact-us.html',

@@ -48,7 +48,6 @@ console.log('Imported BookingService from ./booking.service');
     CommonModule,
     FormsModule,
     MatProgressSpinnerModule,
-    BookingMessageDialog, // Used programmatically for API response dialogs
     HttpClientModule
   ],
   templateUrl: './booking.html',
