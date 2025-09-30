@@ -48,7 +48,6 @@ console.log('Imported BookingService from ./booking.service');
     CommonModule,
     FormsModule,
     MatProgressSpinnerModule,
-    BookingMessageDialog,
     HttpClientModule
   ],
   templateUrl: './booking.html',
@@ -131,6 +130,7 @@ export class Booking implements AfterViewInit {
   public furnitureAssembly = '';
   public packingService = '';
   public storageService = '';
+  public formSubmitted = false; // Track if form has been submitted
 
   constructor(
     private bookingService: BookingService,
@@ -208,26 +208,17 @@ export class Booking implements AfterViewInit {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-  
-  // Show error dialog
-  showErrorDialog(errors: string[]) {
-    const errorMessage = errors.join('\n• ');
-    this.dialog.open(BookingMessageDialog, {
-      data: { 
-        message: `Please fill in the following required fields:\n• ${errorMessage}`, 
-        success: false 
-      },
-      width: '400px'
-    });
-  }
 
   submitBooking() {
+    // Mark form as submitted for validation display
+    this.formSubmitted = true;
+    
     // First validate the form
     const validationErrors = this.validateForm();
     
     if (validationErrors.length > 0) {
-      // Show validation errors and stop submission
-      this.showErrorDialog(validationErrors);
+      // Log validation errors and stop submission
+      console.log('Form validation failed:', validationErrors.join(', '));
       return;
     }
     
@@ -236,7 +227,16 @@ export class Booking implements AfterViewInit {
     this.responseSuccess = false;
     this.isLoading = true;
     
-    let formattedDate = this.mainDate ? this.mainDate.toISOString().slice(0, 10) : '';
+    // Format date properly to avoid timezone issues
+    let formattedDate = '';
+    if (this.mainDate) {
+      const year = this.mainDate.getFullYear();
+      const month = String(this.mainDate.getMonth() + 1).padStart(2, '0');
+      const day = String(this.mainDate.getDate()).padStart(2, '0');
+      formattedDate = `${year}-${month}-${day}`;
+      console.log('Selected date:', this.mainDate);
+      console.log('Formatted date for API:', formattedDate);
+    }
     let serviceTypetxt = '';
     
     switch (this.serviceType) {
@@ -311,7 +311,7 @@ export class Booking implements AfterViewInit {
     if (!this.configService.isConfigValid()) {
       console.error('API configuration is invalid');
       this.isLoading = false;
-      this.showErrorMessage('System configuration error. Please try again later.');
+      this.showApiErrorDialog('System configuration error. Please try again later.');
       return;
     }
 
@@ -343,13 +343,15 @@ export class Booking implements AfterViewInit {
         console.log('Booking submitted successfully');
         this.isLoading = false;
         
-        // Show success message
+        // Show success popup
         this.dialog.open(BookingMessageDialog, {
           data: { 
             message: 'Your booking has been submitted successfully! We will contact you soon to confirm your appointment.', 
             success: true 
           },
-          width: '400px'
+          width: '400px',
+          disableClose: false,
+          panelClass: 'booking-success-dialog'
         });
         
         // Clear form after successful submission
@@ -370,19 +372,22 @@ export class Booking implements AfterViewInit {
           errorMessage = 'Server error. Please try again in a few minutes.';
         }
         
-        this.showErrorMessage(errorMessage);
+        // Show error popup
+        this.showApiErrorDialog(errorMessage);
       }
     });
   }
   
-  // Helper method to show error messages
-  private showErrorMessage(message: string) {
+  // Show error dialog only for API responses
+  private showApiErrorDialog(message: string) {
     this.dialog.open(BookingMessageDialog, {
       data: { 
         message: message, 
         success: false 
       },
-      width: '400px'
+      width: '400px',
+      disableClose: false,
+      panelClass: 'booking-error-dialog'
     });
   }
   
@@ -412,5 +417,6 @@ export class Booking implements AfterViewInit {
     this.furnitureAssembly = '';
     this.packingService = '';
     this.storageService = '';
+    this.formSubmitted = false; // Reset submission flag
   }
 }

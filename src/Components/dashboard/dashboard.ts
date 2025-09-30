@@ -5,6 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -39,6 +44,11 @@ interface CalendarDay {
     MatIconModule,
     MatBadgeModule,
     MatProgressBarModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    FormsModule,
     CommonModule,
     NgIf,
     NgFor,
@@ -54,11 +64,18 @@ export class Dashboard implements OnInit, OnDestroy {
   // Current date for display
   currentDate: Date = new Date();
   
+  // Selected date for schedule viewing
+  selectedDate: Date = new Date();
+  minDate: Date = new Date(2024, 0, 1); // January 1, 2024
+  maxDate: Date = new Date(2025, 11, 31); // December 31, 2025
+  
   // Statistics
   totalBookings: number = 0;
   totalMessages: number = 0;
   activeServices: number = 0;
   revenue: number = 0;
+  newBookingCount: number = 0;
+  newBookingGrowth: number = 0;
   
   // Data arrays
   recentActivities: RecentActivity[] = [];
@@ -94,6 +111,8 @@ export class Dashboard implements OnInit, OnDestroy {
       this.totalMessages = 12;
       this.activeServices = 8;
       this.revenue = 125000;
+      this.newBookingCount = 23;
+      this.newBookingGrowth = 15;
       
       this.recentActivities = [
         {
@@ -291,5 +310,72 @@ export class Dashboard implements OnInit, OnDestroy {
     // Navigate to reports page or open reports modal
     console.log('Generate reports functionality');
     alert('Reports functionality will be implemented soon!');
+  }
+
+  // Date selection methods for Today's Schedule
+  onDateChange() {
+    // Update display when date is changed
+    console.log('Selected date changed to:', this.selectedDate);
+  }
+
+  getDailyStats() {
+    // Get statistics for the selected date
+    const selectedBookings = this.getBookingsForDate(this.selectedDate);
+    const completedCount = selectedBookings.filter(b => b.status === 'completed').length;
+    const totalCount = selectedBookings.length;
+    const ongoingCount = selectedBookings.filter(b => b.status === 'confirmed' || b.status === 'New_booking').length;
+    
+    return {
+      completed: completedCount,
+      total: totalCount,
+      pending: selectedBookings.filter(b => b.status === 'pending').length,
+      ongoing: ongoingCount,
+      scheduled: totalCount,
+      progressPercentage: totalCount > 0 ? (completedCount / totalCount) * 100 : 0
+    };
+  }
+
+  getDailyCleanings() {
+    // Get cleaning appointments for the selected date
+    return this.getBookingsForDate(this.selectedDate).map(booking => ({
+      id: booking.id,
+      customerName: booking.customerName,
+      service: booking.service,
+      serviceType: booking.service, // Add serviceType property
+      address: 'Stockholm, Sweden', // Add default address
+      time: booking.time || '00:00',
+      status: booking.status,
+      icon: this.getServiceIcon(booking.service)
+    }));
+  }
+
+  getDailyProgress() {
+    // Get progress percentage for the selected date
+    const stats = this.getDailyStats();
+    return stats.progressPercentage;
+  }
+
+  // Helper method to get status badge class
+  getStatusBadgeClass(status: string): string {
+    const statusClasses: { [key: string]: string } = {
+      'completed': 'status-completed',
+      'pending': 'status-pending', 
+      'confirmed': 'status-confirmed',
+      'cancelled': 'status-cancelled',
+      'New_booking': 'status-new'
+    };
+    return statusClasses[status] || 'status-pending';
+  }
+
+  // Helper method to get status text
+  getStatusText(status: string): string {
+    const statusTexts: { [key: string]: string } = {
+      'completed': 'Completed',
+      'pending': 'Pending',
+      'confirmed': 'Confirmed', 
+      'cancelled': 'Cancelled',
+      'New_booking': 'New'
+    };
+    return statusTexts[status] || 'Pending';
   }
 }

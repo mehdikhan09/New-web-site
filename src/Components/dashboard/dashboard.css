@@ -949,6 +949,206 @@
   padding: 20px;
 }
 
+/* Schedule Header with Date Selector */
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.title-section {
+  flex: 1;
+}
+
+.date-selector {
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.date-field {
+  width: 200px;
+}
+
+.date-field .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.date-field .mat-form-field-outline {
+  border-radius: 8px;
+}
+
+.date-field .mat-form-field-outline-thick {
+  border-color: #1976d2;
+  border-width: 2px;
+}
+
+/* Selected Date Stats */
+.selected-date-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 20px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+}
+
+.date-stat {
+  text-align: center;
+  flex: 1;
+}
+
+.date-stat .stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 5px;
+}
+
+.date-stat .stat-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Daily Cleaning List */
+.daily-cleaning-list {
+  margin: 25px 0;
+}
+
+.cleaning-list-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-left: 5px;
+}
+
+.cleaning-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.cleaning-item:hover {
+  background: #e9ecef;
+  transform: translateX(5px);
+}
+
+.cleaning-time-badge {
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 70px;
+  color: white;
+}
+
+.cleaning-time-badge.completed {
+  background: #4caf50;
+}
+
+.cleaning-time-badge.ongoing {
+  background: #ff9800;
+}
+
+.cleaning-time-badge.scheduled {
+  background: #2196f3;
+}
+
+.cleaning-info {
+  flex: 1;
+}
+
+.customer-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.service-type {
+  font-size: 0.9rem;
+  color: #1976d2;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.cleaning-address {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.status-indicator {
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-indicator.completed {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.status-indicator.ongoing {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.status-indicator.scheduled {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+/* No cleanings message */
+.no-cleanings {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.no-cleanings mat-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+.no-cleanings h4 {
+  margin: 15px 0 10px 0;
+  color: #888;
+}
+
+.no-cleanings p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Daily Progress */
+.daily-progress {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.daily-progress .progress-text {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #1976d2;
+}
+
 .today-stats {
   display: flex;
   justify-content: space-around;
@@ -1259,6 +1459,47 @@
   .today-stats {
     flex-direction: column;
     gap: 20px;
+  }
+  
+  .schedule-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .date-selector {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .date-field {
+    width: 100%;
+  }
+  
+  .selected-date-stats {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .cleaning-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px;
+  }
+  
+  .cleaning-time-badge {
+    align-self: flex-start;
+    min-width: auto;
+  }
+  
+  .cleaning-info {
+    width: 100%;
+  }
+  
+  .status-indicator {
+    align-self: flex-start;
   }
   
   .insight-list {
