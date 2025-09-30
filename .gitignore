@@ -262,7 +262,7 @@ ehthumbs.db
 Thumbs.db
 
 # Package managers
-package-lock.json
+# package-lock.json should be committed for consistent builds
 yarn.lock
 pnpm-lock.yaml
 
